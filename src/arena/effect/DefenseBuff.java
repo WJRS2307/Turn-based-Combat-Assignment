@@ -16,4 +16,11 @@ public class DefenseBuff extends TimedEffect{
             isApplied = true;
         }
     }
+
+    @Override
+    public void onRemove(Combatant target) {
+        if (isApplied) {
+            target.setDefense(target.getDefense() - defense);
+        }
+    }
 }

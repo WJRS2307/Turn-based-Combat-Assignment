@@ -8,4 +8,8 @@ public interface StatusEffect {
     boolean canExecute();
     void tick();
     boolean isExpired();
+
+    default void onRemove(Combatant target) {
+        // optional hook
+    }
 }

@@ -1,6 +1,5 @@
 package arena.effect;
 
-import arena.entity.Combatant;
 
 public class Stun extends TimedEffect{
 

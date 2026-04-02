@@ -1,4 +1,4 @@
-package arena;
+package arena.ui;
 
 import arena.effect.StatusEffect;
 import arena.entity.Combatant;
@@ -54,6 +54,14 @@ import java.util.Scanner;
             println("2. Medium");
             println("3. Hard");
             return readInt("Enter choice: ", 1, 3);
+        }
+
+        public int chooseStartingItem(int pickNumber) {
+            println("Choose item #" + pickNumber + ":");
+            println("1. Potion");
+            println("2. Power Stone");
+            println("3. Smoke Bomb");
+            return readInt("Item choice: ", 1, 3);
         }
 
         public void showSetupSummary(String playerName, List<Item> items, int difficulty) {

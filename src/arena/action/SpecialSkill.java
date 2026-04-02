@@ -1,23 +1,30 @@
 package arena.action;
 
 import arena.entity.Combatant;
+import arena.entity.Enemy;
 import arena.entity.Player;
+import arena.ui.GameUI;
+
+import java.util.List;
 
 public class SpecialSkill implements Action{
 
     @Override
-    public void execute(Combatant actor, Combatant target) {
+    public void execute(Combatant actor, Combatant target, List<Enemy> enemies, GameUI ui) {
         if (!(actor instanceof Player)) return;
 
-        // Combantant cannot use special skill, must be a player obkect
         Player player = (Player) actor;
 
         if (!player.canUseSpecialSkill()) {
-            System.out.println("Skill is still on cooldown!");
+            if (ui != null) {
+                ui.showMessage("Skill is still on cooldown!");
+            } else {
+                System.out.println("Skill is still on cooldown!");
+            }
             return;
         }
 
-        player.specialSkill(target);
+        player.useSpecialSkill(enemies, ui);
     }
 
 }

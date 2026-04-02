@@ -1,8 +1,12 @@
 package arena.action;
 
 import arena.entity.Combatant;
+import arena.entity.Enemy;
 import arena.entity.Player;
 import arena.item.Item;
+import arena.ui.GameUI;
+
+import java.util.List;
 
 public class UseItem implements Action{
 
@@ -13,11 +17,15 @@ public class UseItem implements Action{
     }
 
     @Override
-    public void execute(Combatant actor, Combatant target) {
+    public void execute(Combatant actor, Combatant target, List<Enemy> enemies, GameUI ui) {
         if(!(actor instanceof Player)) return; 
 
-        item.useItem(actor);
-        System.out.println(actor.getName() + " used " + item.getClass().getSimpleName());
+        item.use((Player) actor, enemies, ui);
+        if (ui != null) {
+            ui.showMessage(actor.getName() + " used " + item.getClass().getSimpleName());
+        } else {
+            System.out.println(actor.getName() + " used " + item.getClass().getSimpleName());
+        }
     }
     
 }

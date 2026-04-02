@@ -1,7 +1,7 @@
-package arena.battle;
+package arena.engine;
 
-import arena.GameUI;
-import arena.GameUI.ActionChoice;
+import arena.ui.GameUI;
+import arena.ui.GameUI.ActionChoice;
 import arena.entity.Combatant;
 import arena.entity.Enemy;
 import arena.entity.Player;
@@ -28,6 +28,9 @@ public class BattleEngine {
             round++;
             ui.showRoundHeader(round);
 
+            // Apply existing status effects first (round-based)
+            applyRoundStartEffects(player, activeEnemies);
+
             if (allDefeated(activeEnemies) && config.hasBackup() && !backupSpawned) {
                 List<Enemy> backup = config.getBackupWave();
                 activeEnemies.addAll(backup);
@@ -49,12 +52,6 @@ public class BattleEngine {
             List<Combatant> turnOrder = buildTurnOrder(player, activeEnemies);
 
             for (Combatant combatant : turnOrder) {
-                if (!combatant.isAlive()) {
-                    continue;
-                }
-
-                combatant.applyEffects();
-
                 if (!combatant.isAlive()) {
                     continue;
                 }
@@ -81,6 +78,9 @@ public class BattleEngine {
                 }
             }
 
+            // End-of-round ticking & expiration for round-based effects
+            endRoundTick(player, activeEnemies);
+
             if (!player.isAlive()) {
                 long remaining = activeEnemies.stream().filter(Enemy::isAlive).count();
                 ui.showDefeat((int) remaining, round);
@@ -92,6 +92,11 @@ public class BattleEngine {
     private void handlePlayerTurn(Player player, List<Item> items, List<Enemy> activeEnemies) {
         player.tickCooldown();
         List<Enemy> aliveEnemies = getAliveEnemies(activeEnemies);
+
+        if (!player.canAct()) {
+            ui.showTurnSkipped(player);
+            return;
+        }
 
         while (true) {
             ActionChoice choice = ui.chooseAction(!items.isEmpty());
@@ -161,7 +166,7 @@ public class BattleEngine {
     }
 
     private void handleEnemyTurn(Enemy enemy, Player player) {
-        if (enemy.isStunned()) {
+        if (!enemy.canAct()) {
             ui.showTurnSkipped(enemy);
             return;
         }
@@ -198,6 +203,30 @@ public class BattleEngine {
         }
 
         return Math.max(0, attacker.getAttack() - defender.getDefense());
+    }
+
+    private void applyRoundStartEffects(Player player, List<Enemy> activeEnemies) {
+        if (player.isAlive()) {
+            player.applyEffects();
+        }
+
+        for (Enemy enemy : activeEnemies) {
+            if (enemy != null && enemy.isAlive()) {
+                enemy.applyEffects();
+            }
+        }
+    }
+
+    private void endRoundTick(Player player, List<Enemy> activeEnemies) {
+        if (player.isAlive()) {
+            player.endRoundTickEffects();
+        }
+
+        for (Enemy enemy : activeEnemies) {
+            if (enemy != null && enemy.isAlive()) {
+                enemy.endRoundTickEffects();
+            }
+        }
     }
 
     private boolean allDefeated(List<Enemy> enemies) {

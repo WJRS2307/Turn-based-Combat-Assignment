@@ -6,5 +6,8 @@ public abstract class Enemy extends Combatant{
         super(name, currentHp, attack, defense, speed);
     }
     
+    public boolean isStunned() {
+        return !canAct();
+    }
 
 }

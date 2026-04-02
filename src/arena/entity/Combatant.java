@@ -24,6 +24,7 @@ public abstract class Combatant {
     public int getSpeed() { return this.speed; }
     public String getName() { return this.name; }
     public int getCurrentHp() { return this.currentHp; }
+    public int getMaxHp() { return this.maxHp; }
     public void setDefense(int def){ this.defense = def;}
 
     public boolean isAlive(){
@@ -44,5 +45,39 @@ public abstract class Combatant {
     }
     public List<StatusEffect> getEffects(){
         return this.effects;
+    }
+
+    public boolean canAct() {
+        for (StatusEffect effect : effects) {
+            if (!effect.canExecute()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void applyEffects() {
+        for (StatusEffect effect : effects) {
+            effect.apply(this);
+        }
+    }
+
+    public void endRoundTickEffects() {
+        if (effects.isEmpty()) {
+            return;
+        }
+
+        List<StatusEffect> expired = new ArrayList<>();
+        for (StatusEffect effect : effects) {
+            effect.tick();
+            if (effect.isExpired()) {
+                expired.add(effect);
+            }
+        }
+
+        for (StatusEffect effect : expired) {
+            effect.onRemove(this);
+            effects.remove(effect);
+        }
     }
 }

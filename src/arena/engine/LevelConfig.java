@@ -1,4 +1,4 @@
-package arena.battle;
+package arena.engine;
 
 import arena.entity.Enemy;
 import java.util.List;
