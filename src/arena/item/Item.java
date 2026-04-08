@@ -8,5 +8,4 @@ import java.util.List;
 public interface Item {
     void use(Player player, List<Enemy> enemies, GameUI ui);
     ItemType getType();
-
 }

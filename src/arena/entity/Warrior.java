@@ -1,6 +1,6 @@
 package arena.entity;
 
-import arena.effect.Stun;
+import arena.effect.StunEffect;
 import arena.ui.GameUI;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class Warrior extends Player{
 
         int dmg = Math.max(0, attack - target.getDefense());
         target.takeDamage(dmg);
-        target.addEffect(new Stun(2));
+        target.addEffect(new StunEffect(2));
 
         ui.showMessage("Shield Bash! " + target.getName() + " takes " + dmg + " damage and is STUNNED!");
         if (!target.isAlive()) {

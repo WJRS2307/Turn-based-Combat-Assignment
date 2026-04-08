@@ -1,9 +1,9 @@
 package arena.effect;
 
 
-public class Stun extends TimedEffect{
+public class StunEffect extends TimedEffect{
 
-    public Stun(int duration) {
+    public StunEffect(int duration) {
         super(duration);
     }
 

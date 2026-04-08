@@ -7,7 +7,6 @@ import arena.entity.Enemy;
 import arena.entity.Player;
 import arena.item.Item;
 import arena.item.ItemType;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

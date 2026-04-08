@@ -1,7 +1,7 @@
 package arena.entity;
 
 import arena.effect.DefenseBuff;
-import arena.effect.SmokeBombInvulnerability;
+import arena.effect.SmokeBombInVulnerability;
 import arena.effect.StatusEffect;
 import arena.item.Item;
 import arena.item.ItemFactory;
@@ -45,7 +45,7 @@ public abstract class Player extends Combatant{
 
     public boolean hasSmokeBomb() {
         for (StatusEffect effect : effects) {
-            if (effect instanceof SmokeBombInvulnerability) {
+            if (effect instanceof SmokeBombInVulnerability) {
                 return true;
             }
         }
@@ -53,7 +53,7 @@ public abstract class Player extends Combatant{
     }
 
     public void applySmokeBomb() {
-        addEffect(new SmokeBombInvulnerability(2));
+        addEffect(new SmokeBombInVulnerability(2));
     }
 
     public void useSpecialSkill(List<Enemy> enemies, GameUI ui) {
