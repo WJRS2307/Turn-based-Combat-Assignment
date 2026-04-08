@@ -7,7 +7,6 @@ import arena.ui.GameUI;
 import java.util.List;
 
 public class Potion implements Item{
-    
     private int value = 100;
 
     @Override
@@ -15,4 +14,10 @@ public class Potion implements Item{
         player.heal(value);
         ui.showMessage("Potion used! +" + value + " HP");
     }
+
+    @Override
+    public ItemType getType() {
+        return ItemType.POTION;
+    }
+
 }

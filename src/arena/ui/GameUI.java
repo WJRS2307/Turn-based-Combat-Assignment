@@ -5,9 +5,11 @@ import arena.entity.Combatant;
 import arena.entity.Enemy;
 import arena.entity.Player;
 import arena.item.Item;
+import arena.item.ItemType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
     public class GameUI {
@@ -181,8 +183,36 @@ import java.util.Scanner;
             println("Victory!");
             println("Congratulations, you have defeated all your enemies.");
             println("Remaining HP: " + player.getCurrentHp());
+            println("Final Attack: " + player.getAttack());
             println("Total Rounds: " + totalRounds);
+            println(formatInventory(player.getItemInventory(),player));
             println("");
+        }
+        
+        public String formatInventory(Map<ItemType,Integer> items, Player player) {
+            StringBuilder sb = new StringBuilder();
+            boolean first = true;
+
+            for (ItemType type : ItemType.values()) {
+                if (!first) {
+                    sb.append(" | ");
+                }
+
+                int count = player.getItemCount(type);
+
+                sb.append("Remaining ")
+                .append(type.getDisplayName())
+                .append(": ")
+                .append(count);
+
+                if (count > 0) {
+                    sb.append(" <- unused");
+                }
+
+                first = false;
+            }
+
+            return sb.toString();
         }
 
         public void showDefeat(int enemiesRemaining, int totalRounds) {

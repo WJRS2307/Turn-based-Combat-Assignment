@@ -6,6 +6,7 @@ import arena.entity.Combatant;
 import arena.entity.Enemy;
 import arena.entity.Player;
 import arena.item.Item;
+import arena.item.ItemType;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -145,6 +146,7 @@ public class BattleEngine {
 
                     Item item = items.get(index);
                     item.use(player, aliveEnemies, ui);
+                    player.useItem(ItemType.valueOf(item.getType().name()));
                     items.remove(index);
 
                     ui.showMessage("Item used. Items remaining: " + items.size());

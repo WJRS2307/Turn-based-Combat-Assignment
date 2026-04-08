@@ -9,7 +9,6 @@ import arena.entity.Wizard;
 import arena.item.Item;
 import arena.item.ItemFactory;
 import arena.ui.GameUI;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +41,14 @@ public class Main {
 
             Player player = (playerChoice == 1) ? new Warrior("Warrior", 260, 40, 20, 30) : new Wizard();
 
-            List<Item> items = new ArrayList<>();
-            items.add(ItemFactory.create(itemChoices.get(0)));
-            items.add(ItemFactory.create(itemChoices.get(1)));
+            for(int choice : itemChoices) {
+                player.addItem(ItemFactory.fromChoice(choice));
+            }
 
+            List<Item> items = player.getItemsAsList(); // call so i dont have to keep calling
             LevelConfig config = LevelConfigFactory.create(difficulty);
 
-            ui.showSetupSummary(player.getName(), items, difficulty);
+            ui.showSetupSummary(player.getName(), items,difficulty);
             ui.pressEnterToContinue();
 
             BattleEngine engine = new BattleEngine(ui);

@@ -13,5 +13,10 @@ public class PowerStone implements Item {
         ui.showMessage("Power Stone used! Special skill triggers once without changing cooldown.");
         player.triggerSpecialSkillWithoutCooldown(enemies, ui);
     }
+
+    @Override
+    public ItemType getType() {
+        return ItemType.POWER_STONE;
+    }
 }
 
